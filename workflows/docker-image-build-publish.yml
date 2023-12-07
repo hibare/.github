@@ -54,9 +54,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            core.setOutput('tags', `${{ inputs.tags }}`.split(",").join("\n"))
-            core.setOutput('image_names', `${{ inputs.image_names }}`.split(",").join("\n"))
-            core.setOutput('build_args', `${{ inputs.build_args }}`.split(",").join("\n"))
+            core.setOutput('tags', `${{ inputs.tags }}`.split(" ").join("\n"))
+            core.setOutput('image_names', `${{ inputs.image_names }}`.split(" ").join("\n"))
+            core.setOutput('build_args', `${{ inputs.build_args }}`.split(" ").join("\n"))
 
       - name: Docker meta
         id: meta
