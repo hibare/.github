@@ -33,8 +33,6 @@ on:
           description: comma-separated list of platforms.
 
     secrets:
-      GITHUB_TOKEN:
-        required: true
       DOCKER_USERNAME:
         required: true
       DOCKER_PASSWORD:
