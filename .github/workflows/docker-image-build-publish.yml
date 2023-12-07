@@ -9,6 +9,10 @@ on:
           type: string
           default: ./Dockerfile
           description: Path to Dockerfile
+      context:
+          type: string
+          default: .
+          description: Path to context
       image_names:
           type: string
           required: true
@@ -44,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      id-token: write # For cosign
+      # id-token: write # For cosign
       packages: write # For GHCR
 
     steps:
@@ -103,7 +107,8 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v5
         with:
-          Dockerfile: ${{ inputs.dockerfile }}
+          file: ${{ inputs.dockerfile }}
+          context: ${{ inputs.context }}
           builder: ${{ steps.buildx.outputs.name }}
           platforms: ${{ inputs.platforms }}
           push: ${{ inputs.push }}
