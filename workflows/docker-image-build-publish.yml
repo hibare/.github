@@ -5,7 +5,7 @@ name: Docker Build & Publish
 on:
   workflow_call:
     inputs:
-      image:
+      image_names:
           type: string
           required: true
           description: Space separated list of image names.
@@ -55,14 +55,14 @@ jobs:
         with:
           script: |
             core.setOutput('tags', `${{ inputs.tags }}`.split(",").join("\n"))
-            core.setOutput('images', `${{ inputs.image }}`.split(",").join("\n"))
+            core.setOutput('image_names', `${{ inputs.image_names }}`.split(",").join("\n"))
             core.setOutput('build_args', `${{ inputs.build_args }}`.split(",").join("\n"))
 
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ steps.newlined-input.outputs.images }}
+          images: ${{ steps.newlined-input.outputs.image_names }}
           tags: ${{ steps.newlined-input.outputs.tags }} 
 
       - name: Set up QEMU
