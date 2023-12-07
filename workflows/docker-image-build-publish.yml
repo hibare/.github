@@ -5,6 +5,10 @@ name: Docker Build & Publish
 on:
   workflow_call:
     inputs:
+      dockerfile:
+          type: string
+          default: ./Dockerfile
+          description: Path to Dockerfile
       image_names:
           type: string
           required: true
@@ -101,6 +105,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v5
         with:
+          Dockerfile: ${{ inputs.dockerfile }}
           builder: ${{ steps.buildx.outputs.name }}
           platforms: ${{ inputs.platforms }}
           push: ${{ inputs.push }}
