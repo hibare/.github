@@ -40,7 +40,7 @@ jobs:
         id: existing_pr
         run: |
           EXISTING_PR=$(gh pr list --base ${{ inputs.base_branch }} --head ${{ inputs.head_branch }} --state open --json number)
-          echo "::set-output name=existing_pr::$EXISTING_PR"
+          echo "existing_pr=$EXISTING_PR" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ github.token }}
 
