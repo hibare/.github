@@ -47,7 +47,7 @@ jobs:
       - name: Create PR
         if: ${{ steps.existing_pr.outputs.existing_pr == '[]' }}
         run: |
-          output=$(gh pr create --base ${{ inputs.base_branch }} --head ${{ inputs.head_branch }} --title ${{ inputs.pr_title }} --body ${{ inputs.pr_body }} 2>&1 || true)
+          output=$(gh pr create --base ${{ inputs.base_branch }} --head ${{ inputs.head_branch }} --title "${{ inputs.pr_title }}" --body "${{ inputs.pr_body }}" 2>&1 || true)
           if [[ "$output" =~ https://github.com/.*pull/[0-9]+ ]]; then
               echo "Pull request created successfully. URL: $output"
           else
