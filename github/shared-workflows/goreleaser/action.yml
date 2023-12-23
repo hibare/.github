@@ -1,0 +1,41 @@
+name: Goreleaser build & Publish
+description: Build and publish artifacts using Goreleaser
+
+inputs:
+  args:
+    required: true
+    description: Goreleaser args
+  workdir:
+    default: .
+    description: Work directory
+  sign:
+    default: 'false'
+    description: Sign artifacts using cosign
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      with:
+        fetch-depth: 0
+
+    - name: Set up Go
+      uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
+      with:
+        go-version-file: go.mod
+    
+    - name: Cosign install
+      if: ${{ github.event_name != 'pull_request' && inputs.sign == 'true' }}
+      uses: sigstore/cosign-installer@9614fae9e5c5eddabb09f90a270fcb487c9f7149 # v3.3.0
+    
+    - name: Run GoReleaser
+      uses: goreleaser/goreleaser-action@7ec5c2b0c6cdda6e8bbb49444bc797dd33d74dd8 # v5.0.0
+      with:
+        distribution: goreleaser
+        version: latest
+        args: ${{ inputs.args }}
+        workdir: ${{ inputs.workdir }}
+      env:
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+        FURY_TOKEN: ${{ env.FURY_PUSH_TOKEN }}
