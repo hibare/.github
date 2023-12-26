@@ -38,4 +38,4 @@ runs:
         workdir: ${{ inputs.workdir }}
       env:
         GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
-        FURY_TOKEN: ${{ env.FURY_PUSH_TOKEN }}
+        FURY_TOKEN: ${{ env.FURY_TOKEN }}
