@@ -3,37 +3,37 @@ description: Build and publish docker images
 
 inputs:
   dockerfile:
-      default: ./Dockerfile
-      description: Path to Dockerfile
+    default: ./Dockerfile
+    description: Path to Dockerfile
   context:
-      default: .
-      description: Path to context
+    default: .
+    description: Path to context
   image_names:
-      required: true
-      description: Space separated list of image names.
+    required: true
+    description: Space separated list of image names.
   tags:
-      required: true
-      description: space-separated list of additional image tags.
+    required: true
+    description: space-separated list of additional image tags.
   push_dockerhub:
-      required: false
-      default: 'false' # ToDo: Change to  boolean when types are available in composite workflows
-      description: Whether to push the image to Dockerhub.
+    required: false
+    default: "false" # ToDo: Change to  boolean when types are available in composite workflows
+    description: Whether to push the image to Dockerhub.
   push_ghcr:
-      required: false
-      default: 'false' # ToDo: Change to  boolean when types are available in composite workflows
-      description: Whether to push the image to GHCR.
+    required: false
+    default: "false" # ToDo: Change to  boolean when types are available in composite workflows
+    description: Whether to push the image to GHCR.
   build_args:
-      required: false
-      default: ""
-      description: space-separated list of build args.
+    required: false
+    default: ""
+    description: space-separated list of build args.
   platforms:
-      required: true
-      description: comma-separated list of platforms.
+    required: true
+    description: comma-separated list of platforms.
 
 outputs:
   image_digest:
-      description: The image digest
-      value: ${{ steps.docker_build.outputs.digest }}
+    description: The image digest
+    value: ${{ steps.docker_build.outputs.digest }}
 
 runs:
   using: composite
@@ -60,9 +60,6 @@ runs:
           fi
         fi
 
-    - name: Checkout
-      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-
     - name: Build newline separated args
       id: newlined-input
       uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
@@ -77,7 +74,7 @@ runs:
       uses: docker/metadata-action@31cebacef4805868f9ce9a0cb03ee36c32df2ac4 # v5.3.0
       with:
         images: ${{ steps.newlined-input.outputs.image_names }}
-        tags: ${{ steps.newlined-input.outputs.tags }} 
+        tags: ${{ steps.newlined-input.outputs.tags }}
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@68827325e0b33c7199eb31dd4e31fbe9023e06e3 # v3.0.0
@@ -104,7 +101,7 @@ runs:
         password: ${{ env.DOCKERHUB_PASSWORD }}
 
     - name: Login to GitHub Container Registry
-      if: ${{ inputs.push_ghcr == 'true' }} 
+      if: ${{ inputs.push_ghcr == 'true' }}
       uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
       with:
         registry: ghcr.io
