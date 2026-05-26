@@ -8,6 +8,24 @@ updates:
       day: "friday"
       time: "00:30"
     target-branch: "main"
+    cooldown:
+      default-days: 10
+    assignees:
+      - "hibare"
+    groups:
+      actions:
+        patterns:
+          - "*"
+  # Maintain dependencies for GitHub Actions in shared workflows
+  - package-ecosystem: "github-actions"
+    directory: "/github/shared-workflows"
+    schedule:
+      interval: "monthly"
+      day: "friday"
+      time: "00:30"
+    target-branch: "main"
+    cooldown:
+      default-days: 10
     assignees:
       - "hibare"
     groups:
