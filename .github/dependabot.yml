@@ -16,6 +16,7 @@ updates:
       actions:
         patterns:
           - "*"
+
   # Maintain dependencies for GitHub Actions in shared workflows
   - package-ecosystem: "github-actions"
     directory: "/github/shared-workflows"
