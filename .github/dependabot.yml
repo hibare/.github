@@ -2,24 +2,11 @@ version: 2
 updates:
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-      day: "friday"
-      time: "00:30"
-    target-branch: "main"
-    cooldown:
-      default-days: 10
-    assignees:
-      - "hibare"
-    groups:
-      actions:
-        patterns:
-          - "*"
-
-  # Maintain dependencies for GitHub Actions in shared workflows
-  - package-ecosystem: "github-actions"
-    directory: "/github/shared-workflows"
+    directories:
+      - "/"
+      - "/github/shared-workflows/docker-image-build-publish"
+      - "/github/shared-workflows/goreleaser"
+      - "/github/shared-workflows/pre-commit"
     schedule:
       interval: "monthly"
       day: "friday"
