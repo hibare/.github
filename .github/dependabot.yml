@@ -5,6 +5,7 @@ updates:
     directories:
       - "/"
       - "/github/shared-workflows/docker-image-build-publish"
+      - "/github/shared-workflows/gate"
       - "/github/shared-workflows/goreleaser"
       - "/github/shared-workflows/pre-commit"
     schedule:
