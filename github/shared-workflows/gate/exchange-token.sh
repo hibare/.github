@@ -13,31 +13,12 @@ set -euo pipefail
 : "${POLICY_NAME:=}"
 : "${REQUESTED_PERMISSIONS:=}"
 : "${REQUESTED_TTL:=}"
-: "${TAILSCALE_ENABLED:=false}"
-: "${TAILSCALE_TAGS:=tag:ci}"
-: "${TS_OAUTH_CLIENT_ID:=}"
-: "${TS_OAUTH_SECRET:=}"
 
 # Helper functions
 error_exit() {
     echo "::error title=$1::$2"
     exit 1
 }
-
-# Connect to Tailscale if enabled
-if [[ "${TAILSCALE_ENABLED}" == "true" ]]; then
-    if [[ -z "${TS_OAUTH_CLIENT_ID}" || -z "${TS_OAUTH_SECRET}" ]]; then
-        error_exit "Missing Tailscale credentials" "TS_OAUTH_CLIENT_ID and TS_OAUTH_SECRET are required when tailscale-enabled is true"
-    fi
-
-    echo "Connecting to Tailscale..."
-    if ! tailscale up --auth-key="${TS_OAUTH_CLIENT_ID}:${TS_OAUTH_SECRET}" --tags="${TAILSCALE_TAGS}" 2>/dev/null; then
-        # Try with oauth-client-id and oauth-secret if tailscale up doesn't work directly
-        echo "Attempting Tailscale connection with OAuth..."
-        tailscale login --oauth-client-id="${TS_OAUTH_CLIENT_ID}" --oauth-secret="${TS_OAUTH_SECRET}" --tags="${TAILSCALE_TAGS}" || \
-            error_exit "Tailscale connection failed" "Failed to connect to Tailscale. Check credentials and network."
-    fi
-fi
 
 # Fetch OIDC token from GitHub
 echo "Fetching OIDC token from GitHub..."
