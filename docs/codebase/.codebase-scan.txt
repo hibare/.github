@@ -1,0 +1,128 @@
+
+=== DIRECTORY TREE (max depth 3, source files only) ===
+.claude
+.claude/settings.local.json
+.editorconfig
+.github
+.github/dependabot.yml
+.github/release-drafter.yml
+.github/workflows
+.github/workflows/checks.yml
+.github/workflows/release-drafter.yml
+.pre-commit-config.yaml
+.vscode
+.vscode/settings.json
+README.md
+docs
+docs/codebase
+docs/codebase/.codebase-scan.txt
+docs/plans
+docs/plans/2026-06-04-caretaker-dependabot-command-design.md
+docs/plans/2026-06-04-caretaker-dependabot-command-implementation.md
+docs/plans/2026-06-04-caretaker-design.md
+docs/plans/2026-06-04-caretaker-dev-tools-design.md
+docs/plans/2026-06-04-caretaker-dev-tools-implementation.md
+docs/plans/2026-06-04-caretaker-go-command-design.md
+docs/plans/2026-06-04-caretaker-go-command-implementation.md
+docs/plans/2026-06-04-caretaker-implementation.md
+github
+github/shared-workflows
+github/shared-workflows/docker-image-build-publish
+github/shared-workflows/docker-image-build-publish/action.yml
+github/shared-workflows/gate
+github/shared-workflows/gate/action.yml
+github/shared-workflows/goreleaser
+github/shared-workflows/goreleaser/action.yml
+github/shared-workflows/pre-commit
+github/shared-workflows/pre-commit/action.yml
+github/shared-workflows/pre-commit/requirements.in
+github/shared-workflows/pre-commit/requirements.txt
+
+=== STACK DETECTION (manifest files) ===
+No recognized manifest files found in project root.
+
+=== ENTRY POINTS ===
+No common entry points found. Check 'main' or 'scripts.start' in manifest files above.
+
+=== LINTING AND FORMATTING CONFIG ===
+Found: .editorconfig
+
+=== ENVIRONMENT VARIABLE TEMPLATES ===
+No .env.example or .env.template found. Identify required environment variables by searching the code and config for environment variable reads.
+
+=== TODO / FIXME / HACK (production code only, test dirs excluded) ===
+None found.
+
+=== GIT RECENT COMMITS (last 20) ===
+63823c1 feat: add gate exchange-token composite action
+3c17846 chore(deps): bump the actions group across 3 directories with 4 updates (#36)
+949b2a6 chore(deps): bump step-security/harden-runner (#35)
+b087d58 ci: replace pre-commit/action with local shared workflow (#34)
+ec61c90 feat: Something something (#33)
+11e06d3 feat: Something something (#32)
+0703a6e chore: add pre-commit configuration (#31)
+7dea1eb chore: update dependabot schedule to monthly (#30)
+2512bad chore: fix release-drafter workflow (#29)
+9b8b18c Merge pull request #28 from hibare/dependabot/github_actions/main/actions-ce6d608e45
+3eea5b2 chore(deps): bump release-drafter/release-drafter in the actions group
+72c21aa Merge pull request #27 from hibare/dependabot/github_actions/main/actions-cf44be87e9
+2ca6716 chore(deps): bump release-drafter/release-drafter in the actions group
+82e172b Merge pull request #26 from hibare/dependabot/github_actions/main/actions-07dd18d775
+df91be7 chore(deps): bump release-drafter/release-drafter in the actions group
+ddcff40 Merge pull request #25 from hibare/dependabot/github_actions/main/actions-9732075219
+4bbf376 chore(deps): bump release-drafter/release-drafter in the actions group
+47ebc74 Merge pull request #24 from hibare/dependabot/github_actions/main/actions-f6136f8d62
+78a6d80 chore(deps): bump release-drafter/release-drafter in the actions group
+93818f6 remove semgrep
+
+=== HIGH-CHURN FILES (last 90 days, top 20) ===
+   4 .github/dependabot.yml
+   4 .github/workflows/release-drafter.yml
+   3 .github/workflows/checks.yml
+   2 github/shared-workflows/docker-image-build-publish/action.yml
+   2 github/shared-workflows/goreleaser/action.yml
+   2 github/shared-workflows/pre-commit/action.yml
+   2 .pre-commit-config.yaml
+   1 github/shared-workflows/gate/action.yml
+   1 github/shared-workflows/pre-commit/requirements.in
+   1 github/shared-workflows/pre-commit/requirements.txt
+   1 .editorconfig
+   1 .vscode/settings.json
+   1 README.md
+   1 .github/release-drafter.yml
+
+=== MONOREPO SIGNALS ===
+No monorepo signals detected.
+
+=== CODE METRICS ===
+Total files scanned: 23
+Total lines of code: 10
+
+Files by language:
+  Other: 23
+
+Top 10 largest files:
+docs/plans/2026-06-04-caretaker-implementation.md: 27.1KB
+docs/plans/2026-06-04-caretaker-dev-tools-implementation.md: 13.0KB
+docs/plans/2026-06-04-caretaker-dependabot-command-implementation.md: 8.3KB
+github/shared-workflows/pre-commit/requirements.txt: 8.2KB
+docs/plans/2026-06-04-caretaker-go-command-implementation.md: 8.0KB
+github/shared-workflows/gate/action.yml: 5.0KB
+github/shared-workflows/docker-image-build-publish/action.yml: 4.2KB
+docs/plans/2026-06-04-caretaker-design.md: 2.9KB
+docs/plans/2026-06-04-caretaker-dev-tools-design.md: 2.2KB
+docs/plans/2026-06-04-caretaker-go-command-design.md: 2.0KB
+
+=== CI/CD PIPELINES ===
+CI/CD: GitHub Actions
+
+=== CONTAINERS & ORCHESTRATION ===
+No containerization configs detected.
+
+=== SECURITY & COMPLIANCE ===
+No security configs detected.
+
+=== PERFORMANCE & TESTING ===
+No performance testing configs detected.
+
+=== SCAN COMPLETE ===
