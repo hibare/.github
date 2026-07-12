@@ -78,6 +78,7 @@ runs:
         use-cache: true
 
     - name: Exchange token via GATE
+      id: exchange
       shell: bash
       env:
         GATE_SERVER_URL: ${{ inputs.gate-server-url }}
