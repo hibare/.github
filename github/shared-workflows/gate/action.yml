@@ -100,8 +100,7 @@ runs:
           exit 1
         fi
 
-        echo "::add-mask::$OIDC_TOKEN"
-        # Pass via environment variable to avoid output masking issues
+        # Pass via environment variable (no masking to avoid *** in payload)
         echo "OIDC_TOKEN=$OIDC_TOKEN" >> "$GITHUB_ENV"
 
     - name: Build request payload
