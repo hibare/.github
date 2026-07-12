@@ -22,12 +22,11 @@ error_exit() {
 
 # Fetch OIDC token from GitHub
 echo "Fetching OIDC token from GitHub..."
-OIDC_TOKEN=$(curl -sS -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
-    "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=gate" | jq -r '.value')
-
-if [[ -z "${OIDC_TOKEN}" || "${OIDC_TOKEN}" == "null" ]]; then
+if ! OIDC_TOKEN=$(curl -sS -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+    "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=gate" | jq -r '.value') || [[ -z "${OIDC_TOKEN}" || "${OIDC_TOKEN}" == "null" ]]; then
     error_exit "OIDC fetch failed" "Failed to retrieve OIDC token from GitHub."
 fi
+echo "::add-mask::${OIDC_TOKEN}"
 
 # Build request payload
 echo "Building request payload..."
@@ -57,10 +56,14 @@ SERVER_URL="${GATE_SERVER_URL%/}"
 ENDPOINT="${SERVER_URL}/api/v1/exchange"
 
 RESPONSE=$(mktemp)
-HTTP_CODE=$(curl -sS -w '%{http_code}' -o "${RESPONSE}" \
+trap 'rm -f "${RESPONSE}"' EXIT
+
+if ! HTTP_CODE=$(curl -sS -w '%{http_code}' -o "${RESPONSE}" \
     "${ENDPOINT}" \
     -H 'Content-Type: application/json' \
-    -d "${PAYLOAD}")
+    -d "${PAYLOAD}"); then
+    error_exit "Connection failed" "Failed to connect to GATE server at ${ENDPOINT}"
+fi
 
 if [[ "${HTTP_CODE}" -ge 200 && "${HTTP_CODE}" -lt 300 ]]; then
     TOKEN=$(jq -r '.token' "${RESPONSE}")

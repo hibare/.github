@@ -12,7 +12,7 @@ This document catalogs known issues, risks, and areas for improvement in the rep
 - **Issue**: The action fetches GitHub OIDC token via `ACTIONS_ID_TOKEN_REQUEST_TOKEN/URL`. This requires the workflow to have `id-token: write` permission.
 - **Risk**: If a consumer workflow doesn't set `permissions: { id-token: write }`, the action fails with a clear error message. No silent failure.
 - **Mitigation**: Documented in action description and error message. Consumer must explicitly grant permission.
-- **Evidence**: `github/shared-workflows/gate/action.yml:63-67`
+- **Evidence**: `github/shared-workflows/gate/exchange-token.sh:25-26`
 
 ### MEDIUM: Harden Runner in Audit Mode Only
 
