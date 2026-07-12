@@ -1,9 +1,11 @@
 # Technology Stack
 
 ## Overview
+
 This repository is a **GitHub Actions workflows and shared composite actions repository** — not a traditional application codebase. It contains reusable GitHub Actions workflows and composite actions for CI/CD, pre-commit, Docker builds, GoReleaser, and a GATE token exchange action.
 
 ## Languages & Runtimes
+
 | Category | Details |
 |----------|---------|
 | Primary Languages | YAML (GitHub Actions workflows), Bash (composite action scripts), YAML (pre-commit config), Go (planned caretaker CLI) |
@@ -12,6 +14,7 @@ This repository is a **GitHub Actions workflows and shared composite actions rep
 | Pre-commit | Python-based (via `pre-commit` framework with hooks from various ecosystems) |
 
 ## Frameworks & Tools
+
 | Tool | Version (Pinned) | Purpose |
 |------|------------------|---------|
 | `actions/checkout` | v7.0.0 (SHA: 9c091bb) | Checkout repository |
@@ -30,6 +33,7 @@ This repository is a **GitHub Actions workflows and shared composite actions rep
 | `release-drafter/release-drafter` | v7.4.0 (SHA: ed4bc48) | Automated release notes |
 
 ## Pre-commit Hooks (from `.pre-commit-config.yaml`)
+
 | Hook Repo | Revision | Hooks |
 |-----------|----------|-------|
 | `pre-commit/pre-commit-hooks` | v6.0.0 (3e8a870) | check-added-large-files, check-ast, check-builtin-literals, check-case-conflict, check-executables-have-shebangs, check-illegal-windows-names, check-json, check-shebang-scripts-are-executable, check-symlinks, check-toml, check-yaml, debug-statements, double-quote-string-fixer, end-of-file-fixer, fix-encoding-pragma, mixed-line-ending, sort-simple-yaml, trailing-whitespace, fix-byte-order-marker |
@@ -37,6 +41,7 @@ This repository is a **GitHub Actions workflows and shared composite actions rep
 | `DavidAnson/markdownlint-cli2` | v0.22.1 (996abf6) | markdownlint-cli2-docker |
 
 ## Dependabot Configuration
+
 - **Ecosystem**: `github-actions`
 - **Directories monitored**: `/`, `/github/shared-workflows/docker-image-build-publish`, `/github/shared-workflows/gate`, `/github/shared-workflows/goreleaser`, `/github/shared-workflows/pre-commit`
 - **Schedule**: Monthly on Friday at 00:30
@@ -44,12 +49,14 @@ This repository is a **GitHub Actions workflows and shared composite actions rep
 - **Grouping**: All actions grouped under `actions` group
 
 ## Release Drafter
+
 - **Version**: v7.4.0
 - **Version resolver**: Minor by default, major/minor/patch via labels
 - **Categories**: Features (feat/feature/enhancement), Bug Fixes (fix/bugfix/bug), Documentation (docs), Maintenance (chore), Miscellaneous (misc)
 - **Auto-labeler**: Based on branch names and PR titles (feat/, fix/, docs/, chore/, misc/)
 
 ## Editor Configuration (`.editorconfig`)
+
 - Root: true
 - Default: UTF-8, LF, insert final newline, trim trailing whitespace
 - YAML/YAML: 2-space indent
@@ -64,7 +71,9 @@ This repository is a **GitHub Actions workflows and shared composite actions rep
 - Dependabot config: 2-space indent
 
 ## Planned Go CLI (Caretaker)
+
 Per design docs in `docs/plans/`, a Go CLI called `caretaker` is planned with:
+
 - **Module**: `github.com/hibare/.github/cmd/caretaker`
 - **Framework**: `github.com/spf13/cobra`
 - **Git ops**: `github.com/go-git/go-git/v5`
@@ -74,6 +83,7 @@ Per design docs in `docs/plans/`, a Go CLI called `caretaker` is planned with:
 - **First command**: `caretaker pre-commit pin <repo-url>` — pins pre-commit hook revs to commit SHAs
 
 ## Evidence
+
 - `.github/workflows/checks.yml` — CI workflow using shared pre-commit workflow
 - `.github/dependabot.yml` — Dependabot configuration
 - `.github/release-drafter.yml` — Release drafter configuration

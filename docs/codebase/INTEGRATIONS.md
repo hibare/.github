@@ -1,11 +1,13 @@
 # Integrations
 
 ## Overview
+
 This repository integrates with external services exclusively through GitHub Actions workflows and composite actions. There are no direct application-level integrations (no database connections, no API clients in application code).
 
 ## External Service Integrations
 
 ### 1. GitHub Platform
+
 **Integration Type**: Native (GitHub Actions runtime)
 
 | Component | Purpose | Auth Method | Permissions Used |
@@ -18,6 +20,7 @@ This repository integrates with external services exclusively through GitHub Act
 | Dependabot | Automated dependency updates | Built-in | `contents: write`, `pull-requests: write` |
 
 **OIDC Token Exchange (GATE Action)**:
+
 - Workflow must declare `permissions: { id-token: write }`
 - Action requests token with `audience=gate`
 - GATE server validates token and issues GitHub App installation token
@@ -26,14 +29,18 @@ This repository integrates with external services exclusively through GitHub Act
 ### 2. Docker Registries
 
 #### Docker Hub
+
 **Integration**: `docker/login-action` + `docker/build-push-action`
+
 - **Auth**: Username/password via `DOCKERHUB_USERNAME` / `DOCKERHUB_PASSWORD` repository secrets
 - **Trigger**: Manual via workflow inputs (`push_dockerhub: "true"`)
 - **Images**: Multi-platform via Buildx + QEMU
 - **Cache**: Local `/tmp/.buildx-cache` with GitHub Actions cache
 
 #### GitHub Container Registry (GHCR)
+
 **Integration**: `docker/login-action` + `docker/build-push-action`
+
 - **Auth**: `GITHUB_TOKEN` (automatic, `push_ghcr: "true"` input)
 - **Registry**: `ghcr.io`
 - **Username**: `github.repository_owner`
@@ -42,14 +49,18 @@ This repository integrates with external services exclusively through GitHub Act
 ### 3. Go Ecosystem (via GoReleaser)
 
 #### GoReleaser
+
 **Integration**: `goreleaser/goreleaser-action`
+
 - **Config**: `.goreleaser.yaml` (expected in repo using this action)
 - **Auth**: `GITHUB_TOKEN` for releases, `FURY_TOKEN` for Gemfury (optional)
 - **Signing**: Cosign (optional, `sign: "true"` input)
 - **Distribution**: GitHub Releases, optionally Gemfury, Homebrew, Scoop, etc.
 
 #### Cosign (Sigstore)
+
 **Integration**: `sigstore/cosign-installer`
+
 - **Trigger**: Non-PR events with `sign: "true"`
 - **Purpose**: Sign artifacts and verify signatures
 - **Keys**: Managed via Sigstore keyless signing (OIDC)
@@ -57,7 +68,9 @@ This repository integrates with external services exclusively through GitHub Act
 ### 4. Python / Pre-commit Ecosystem
 
 #### Pre-commit Framework
+
 **Integration**: `actions/setup-python` + `pip install` + `pre-commit run`
+
 - **Python Version**: Latest stable via `setup-python` (no fixed version)
 - **Dependencies**: Pinned in `github/shared-workflows/pre-commit/requirements.txt` with SHA256 hashes
 - **Hook Sources**:
@@ -66,19 +79,24 @@ This repository integrates with external services exclusively through GitHub Act
   - `DavidAnson/markdownlint-cli2` (v0.22.1) — Markdown linting (Docker-based)
 
 #### PyPI (Indirect)
+
 - Pre-commit hooks installed from PyPI via `pip`
 - Hash verification enforced (`--require-hashes`)
 
 ### 5. Security & Hardening
 
 #### Step Security Harden Runner (Integration)
+
 **Integration**: `step-security/harden-runner@v2.19.4`
+
 - **Mode**: `egress-policy: audit` (logs outbound connections, doesn't block)
 - **Scope**: All workflow jobs
 - **Purpose**: Detect unexpected network calls for supply chain security
 
 ### 6. Dependabot
+
 **Integration**: GitHub-native (`.github/dependabot.yml`)
+
 - **Ecosystem**: `github-actions` only
 - **Schedule**: Monthly, Friday 00:30 UTC
 - **Target**: `main` branch
@@ -101,6 +119,7 @@ This repository integrates with external services exclusively through GitHub Act
 ## Network Dependencies
 
 ### Outbound Connections (observed via harden-runner audit)
+
 | Destination | Purpose | From |
 |-------------|---------|------|
 | `api.github.com` | GitHub API (all actions) | All workflows |
@@ -115,11 +134,13 @@ This repository integrates with external services exclusively through GitHub Act
 | `fury.io` | Gemfury publishing | `goreleaser` (if configured) |
 
 ### Inbound Connections
+
 - None (this is a workflow library, not a service)
 
 ## Configuration Management
 
 ### Required Secrets (per repository using these workflows)
+
 | Secret | Required By | Description |
 |--------|-------------|-------------|
 | `DOCKERHUB_USERNAME` | `docker-image-build-publish` | Docker Hub username |
@@ -128,6 +149,7 @@ This repository integrates with external services exclusively through GitHub Act
 | `GATE_SERVER_URL` | `gate` action input | Base URL of GATE server |
 
 ### Environment Variables
+
 | Variable | Set By | Used By |
 |----------|--------|---------|
 | `GITHUB_TOKEN` | GitHub Actions | All actions needing API access |
@@ -140,6 +162,7 @@ This repository integrates with external services exclusively through GitHub Act
 ## Webhook / Event Subscriptions
 
 ### GitHub Events Consumed
+
 | Event | Workflow | Purpose |
 |-------|----------|---------|
 | `push` (tags `v*`, branches `main`) | `checks.yml` | Run CI on releases and main |
@@ -148,6 +171,7 @@ This repository integrates with external services exclusively through GitHub Act
 | `pull_request` (opened, reopened, synchronize) | `release-drafter.yml` | Auto-label PRs |
 
 ### GitHub Events Produced
+
 | Event | Producer | Consumers |
 |-------|----------|-----------|
 | `pull_request` (auto-labeled) | `release-drafter/autolabeler` | Human reviewers, automation |
@@ -157,17 +181,20 @@ This repository integrates with external services exclusively through GitHub Act
 ## Monitoring & Observability
 
 ### Built-in GitHub Actions Monitoring
+
 - **Workflow runs**: `gh run list`, `gh run view`, `gh run watch`
 - **Check results**: `gh pr checks`, `gh pr status`
 - **Release Drafter**: Draft release visible at `/releases` (draft)
 - **Dependabot**: PRs created automatically, viewable in PR list
 
 ### Step Security Harden Runner
+
 - **Mode**: Audit (logs only)
 - **Output**: Annotations in workflow run summary showing egress connections
 - **Alerting**: None configured (audit only)
 
 ### No External Monitoring
+
 - No Datadog, New Relic, Prometheus, Grafana, etc.
 - No custom metrics emission
 - No log aggregation beyond GitHub Actions logs
@@ -175,6 +202,7 @@ This repository integrates with external services exclusively through GitHub Act
 ## Integration Health Checks
 
 ### Manual Verification
+
 | Integration | Check Method |
 |-------------|--------------|
 | Docker Hub push | Trigger workflow with `push_dockerhub: true`, verify image on hub.docker.com |
@@ -186,11 +214,13 @@ This repository integrates with external services exclusively through GitHub Act
 | Dependabot | Wait for monthly run, verify PRs created |
 
 ### Automated Health Signals
+
 - Workflow status badges (if added to README)
 - Dependabot PR creation = Dependabot working
 - Release Drafter draft updates = Release Drafter working
 
 ## Evidence
+
 - `.github/workflows/checks.yml` — GitHub Actions, permissions, harden-runner
 - `.github/workflows/release-drafter.yml` — Release Drafter, auto-labeler
 - `.github/dependabot.yml` — Dependabot config

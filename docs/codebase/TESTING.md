@@ -1,11 +1,13 @@
 # Testing Strategy
 
 ## Overview
+
 This repository is a **GitHub Actions workflow and composite action library** — not a traditional application with unit/integration tests. Testing is primarily **operational** (workflow execution validation) and **static analysis** (linting).
 
 ## Current Testing Approaches
 
 ### 1. Static Analysis (Pre-commit / CI)
+
 All workflows and configurations are validated via pre-commit hooks in `.github/workflows/checks.yml`.
 
 | Check | Tool | Scope |
@@ -21,6 +23,7 @@ All workflows and configurations are validated via pre-commit hooks in `.github/
 **Execution**: `pre-commit run --all-files` (via shared workflow)
 
 ### 2. Workflow Execution Testing (Manual / CI)
+
 Workflows are tested by **actually running them** on GitHub Actions:
 
 | Workflow | Trigger | Validation |
@@ -32,12 +35,14 @@ Workflows are tested by **actually running them** on GitHub Actions:
 **No automated test suite** exists for composite actions — they are validated by consumption in this repo's own workflows and by downstream repositories.
 
 ### 3. Dependabot Validation
+
 - Monthly PRs update action pins to new SHAs
 - `checks.yml` runs on Dependabot PRs
 - If pre-commit passes, update is considered safe
 - Auto-merge not enabled (manual review by `@hibare`)
 
 ### 4. Release Drafter Validation
+
 - PR labels verified on PR creation
 - Draft release content verified on push to main
 - Version resolution tested via label combinations
@@ -47,6 +52,7 @@ Workflows are tested by **actually running them** on GitHub Actions:
 Per `docs/plans/2026-06-04-caretaker-implementation.md`, the Go CLI will have:
 
 ### Unit Tests
+
 - **Framework**: Go standard library `testing` package
 - **Location**: `*_test.go` files alongside source
 - **Targets**:
@@ -55,6 +61,7 @@ Per `docs/plans/2026-06-04-caretaker-implementation.md`, the Go CLI will have:
   - `github/repo.go` — URL parsing, branch/PR logic (unit-testable parts)
 
 ### Test Patterns
+
 ```go
 // Table-driven tests
 func TestIsSHA(t *testing.T) {
@@ -87,16 +94,19 @@ func TestTagRevEntries(t *testing.T) {
 ```
 
 ### Mocking Strategy
+
 - **GitHub API**: `net/http/httptest` server returning canned responses
 - **Git operations**: Not mocked in unit tests (integration-style); use temp dirs
 - **External services**: No direct mocks — test at integration level
 
 ### Integration Tests (Planned)
+
 - **Scope**: Full `PinConfig` flow against a test repository
 - **Requirements**: GitHub token with repo access, test repo
 - **CI**: Not in standard CI (requires secrets); manual or scheduled
 
 ### Test Commands
+
 ```bash
 # Unit tests only
 go test ./cmd/caretaker/... -v
@@ -121,6 +131,7 @@ go tool cover -html=coverage.out
 | GATE action | Requires GATE server | Mock server integration test |
 
 ## Evidence
+
 - `.github/workflows/checks.yml` — Pre-commit CI job
 - `.pre-commit-config.yaml` — Hook definitions (actionlint, markdownlint, etc.)
 - `github/shared-workflows/pre-commit/action.yml` — Pre-commit runner

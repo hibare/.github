@@ -1,6 +1,7 @@
 # Repository Structure
 
 ## Directory Layout
+
 ```
 /home/ranger/Documents/projects/.github/
 ├── .claude/
@@ -45,6 +46,7 @@
 ## Key Files
 
 ### Root Configuration
+
 | File | Purpose |
 |------|---------|
 | `.editorconfig` | Consistent editor settings across IDEs |
@@ -54,12 +56,14 @@
 | `.vscode/settings.json` | VS Code workspace settings |
 
 ### CI/CD Workflows (`.github/workflows/`)
+
 | File | Trigger | Purpose |
 |------|---------|---------|
 | `checks.yml` | Push to main/tags, PR to main/dev | Runs pre-commit hooks via shared workflow |
 | `release-drafter.yml` | Push to main, PR opened/synced | Auto-labels PRs and drafts release notes |
 
 ### Shared Composite Actions (`github/shared-workflows/`)
+
 Each directory contains an `action.yml` defining a composite action:
 
 | Action | Description | Inputs | Outputs |
@@ -70,12 +74,14 @@ Each directory contains an `action.yml` defining a composite action:
 | `pre-commit` | Run pre-commit hooks with caching | `extra_args` | (none) |
 
 ### Pre-commit Action Dependencies
+
 | File | Purpose |
 |------|---------|
 | `github/shared-workflows/pre-commit/requirements.in` | Unpinned pre-commit dependencies (source of truth) |
 | `github/shared-workflows/pre-commit/requirements.txt` | Pinned dependencies with SHA256 hashes (used by action) |
 
 ### Documentation Plans (`docs/plans/`)
+
 | File | Purpose |
 |------|---------|
 | `caretaker-design.md` | High-level design for `caretaker` Go CLI |
@@ -90,20 +96,25 @@ Each directory contains an `action.yml` defining a composite action:
 ## Entry Points
 
 ### GitHub Actions Workflows
+
 - **Primary CI**: `.github/workflows/checks.yml` → uses `hibare/.github/github/shared-workflows/pre-commit@<sha>`
 - **Release Automation**: `.github/workflows/release-drafter.yml` → uses `release-drafter/release-drafter@<sha>`
 
 ### Composite Actions (Callable)
+
 Each shared workflow is a composite action callable via:
+
 ```yaml
 uses: hibare/.github/github/shared-workflows/<action-name>@<ref>
 ```
 
 ### Planned CLI Entry Point (Not Yet Implemented)
+
 - `cmd/caretaker/main.go` — Would be the binary entry point
 - `caretaker pre-commit pin <repo-url>` — First planned sub-command
 
 ## Evidence
+
 - Directory tree from scan output (`docs/codebase/.codebase-scan.txt`)
 - All files listed above verified via `ls` and `cat` commands
 - Workflow files reference shared workflows by repository and SHA

@@ -68,14 +68,21 @@ runs:
     - name: Connect to Tailscale
       if: ${{ inputs.tailscale-enabled == 'true' }}
       uses: tailscale/github-action@780049a30b6ff5c378a9e7b389d15ece7a204888 # v4.1.3
+      env:
+        TS_OAUTH_CLIENT_ID: ${{ env.TS_OAUTH_CLIENT_ID }}
+        TS_OAUTH_SECRET: ${{ env.TS_OAUTH_SECRET }}
       with:
         oauth-client-id: ${{ env.TS_OAUTH_CLIENT_ID }}
         oauth-secret: ${{ env.TS_OAUTH_SECRET }}
         tags: ${{ inputs.tailscale-tags }}
+        use-cache: true
 
     - name: Fetch OIDC token from GitHub
       id: fetch-oidc
       shell: bash
+      env:
+        ACTIONS_ID_TOKEN_REQUEST_TOKEN: ${{ env.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}
+        ACTIONS_ID_TOKEN_REQUEST_URL: ${{ env.ACTIONS_ID_TOKEN_REQUEST_URL }}
       run: |
         set -euo pipefail
 
@@ -94,7 +101,8 @@ runs:
         fi
 
         echo "::add-mask::$OIDC_TOKEN"
-        echo "oidc_token=$OIDC_TOKEN" >> "$GITHUB_OUTPUT"
+        # Pass via environment variable to avoid output masking issues
+        echo "OIDC_TOKEN=$OIDC_TOKEN" >> "$GITHUB_ENV"
 
     - name: Build request payload
       id: payload
@@ -103,11 +111,12 @@ runs:
         POLICY_NAME: ${{ inputs.policy-name }}
         REQUESTED_PERMISSIONS: ${{ inputs.requested-permissions }}
         REQUESTED_TTL: ${{ inputs.requested-ttl }}
+        OIDC_TOKEN: ${{ env.OIDC_TOKEN }}
       run: |
         set -euo pipefail
 
         PAYLOAD=$(jq -n \
-          --arg oidc_token "${{ steps.fetch-oidc.outputs.oidc_token }}" \
+          --arg oidc_token "$OIDC_TOKEN" \
           --arg target_repo "${{ inputs.target-repository }}" \
           '{oidc_token: $oidc_token, target_repository: $target_repo}')
 
