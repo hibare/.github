@@ -26,7 +26,17 @@ This repository integrates with external services exclusively through GitHub Act
 - GATE server validates token and issues GitHub App installation token
 - Used for cross-repository access with fine-grained permissions
 
-### 2. Docker Registries
+### 2. Tailscale (VPN/Mesh Network)
+
+**Integration**: `tailscale/github-action` via GATE action
+
+- **Purpose**: Connect to private tailnet for accessing internal GATE server
+- **Auth**: OAuth client ID/secret via `TS_OAUTH_CLIENT_ID` / `TS_OAUTH_SECRET` env vars
+- **Configuration**: `tailscale-enabled` (bool) and `tailscale-tags` (string) action inputs
+- **Tags**: ACL tags applied to the connection (default: `tag:ci`)
+- **Scope**: Only used when GATE server is on a private tailnet
+
+### 3. Docker Registries
 
 #### Docker Hub
 
@@ -115,6 +125,7 @@ This repository integrates with external services exclusively through GitHub Act
 | GHCR | `GITHUB_TOKEN` | Automatic |
 | Gemfury | `FURY_TOKEN` secret | Repository/Organization secrets |
 | PyPI | N/A (pre-commit only) | N/A |
+| Tailscale | OAuth client ID/secret (secrets) | Repository/Organization secrets → action `env:` |
 
 ## Network Dependencies
 
@@ -132,6 +143,7 @@ This repository integrates with external services exclusively through GitHub Act
 | `gate.server.url` (configurable) | GATE token exchange | `gate` action |
 | `cosign` / `sigstore` endpoints | Keyless signing | `cosign-installer`, `goreleaser` |
 | `fury.io` | Gemfury publishing | `goreleaser` (if configured) |
+| `login.tailscale.com` / `controlplane.tailscale.com` | Tailscale control plane | `tailscale/github-action` |
 
 ### Inbound Connections
 
@@ -147,6 +159,9 @@ This repository integrates with external services exclusively through GitHub Act
 | `DOCKERHUB_PASSWORD` | `docker-image-build-publish` | Docker Hub password/token |
 | `FURY_TOKEN` | `goreleaser` | Gemfury push token (optional) |
 | `GATE_SERVER_URL` | `gate` action input | Base URL of GATE server |
+| `TS_OAUTH_CLIENT_ID` | `gate` action env | Tailscale OAuth client ID |
+| `TS_OAUTH_SECRET` | `gate` action env | Tailscale OAuth secret |
+| `TS_AUDIENCE` | `gate` action env | Tailscale audience (optional) |
 
 ### Environment Variables
 
@@ -158,6 +173,9 @@ This repository integrates with external services exclusively through GitHub Act
 | `DOCKERHUB_USERNAME` | Repo secret → `env:` | `docker-image-build-publish` |
 | `DOCKERHUB_PASSWORD` | Repo secret → `env:` | `docker-image-build-publish` |
 | `FURY_TOKEN` | Repo secret → `env:` | `goreleaser` |
+| `TS_OAUTH_CLIENT_ID` | Repo secret → `env:` | `gate` action (Tailscale) |
+| `TS_OAUTH_SECRET` | Repo secret → `env:` | `gate` action (Tailscale) |
+| `TS_AUDIENCE` | Repo secret → `env:` | `gate` action (Tailscale audience, optional) |
 
 ## Webhook / Event Subscriptions
 
