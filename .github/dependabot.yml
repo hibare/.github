@@ -9,15 +9,53 @@ updates:
       - "/github/shared-workflows/goreleaser"
       - "/github/shared-workflows/pre-commit"
     schedule:
-      interval: "monthly"
-      day: "friday"
-      time: "00:30"
+      interval: "weekly"
+      day: "thursday"
+      time: "23:30"
+      timezone: "UTC"
     target-branch: "main"
     cooldown:
-      default-days: 10
+      default-days: 5
     assignees:
       - "hibare"
     groups:
       actions:
+        patterns:
+          - "*"
+
+  # Maintain dependencies for pre-commit hooks
+  - package-ecosystem: "pre-commit"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+      time: "23:30"
+      timezone: "UTC"
+    target-branch: "main"
+    cooldown:
+      default-days: 5
+    assignees:
+      - "hibare"
+    groups:
+      pre-commit:
+        patterns:
+          - "*"
+
+  # Maintain dependencies for the shared pre-commit workflow's Python requirements
+  - package-ecosystem: "pip"
+    directories:
+      - "/github/shared-workflows/pre-commit"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+      time: "23:30"
+      timezone: "UTC"
+    target-branch: "main"
+    cooldown:
+      default-days: 5
+    assignees:
+      - "hibare"
+    groups:
+      pip:
         patterns:
           - "*"
