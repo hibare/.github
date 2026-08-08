@@ -1,0 +1,20 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editors / IDEs
+.idea/
+*.swp
+*.swo
+.vscode/*.log
+.vscode/*.code-workspace
+
+# Local tool state
+.claude/settings.local.json
+.superpowers/
+
+# Logs
+*.log
+
+# Docs
+docs/plans
