@@ -1,5 +1,5 @@
 name: Docker Build & Publish
-description: Build and publish docker images
+description: Build and publish Docker images, optionally with BuildKit build secrets.
 
 inputs:
   dockerfile:
@@ -26,6 +26,13 @@ inputs:
     required: false
     default: ""
     description: space-separated list of build args.
+  secrets:
+    required: false
+    default: ""
+    description: >
+      Newline-separated list of BuildKit build secrets in KEY=VALUE form
+      (e.g. "npm_token=$SECRETS_NPM_TOKEN"). Exposed inside the Dockerfile
+      via RUN --mount=type=secret,id=KEY.
   platforms:
     required: true
     description: comma-separated list of platforms.
@@ -121,6 +128,7 @@ runs:
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
         build-args: ${{ steps.newlined-input.outputs.build_args }}
+        secrets: ${{ inputs.secrets }}
 
     - name: Image digest
       shell: bash

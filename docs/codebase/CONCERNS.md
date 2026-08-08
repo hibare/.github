@@ -42,7 +42,7 @@ This document catalogs known issues, risks, and areas for improvement in the rep
 ### HIGH: No Tests for Composite Actions
 
 - **Location**: `github/shared-workflows/*/action.yml`
-- **Issue**: Four composite actions have zero automated tests. Validation relies on:
+- **Issue**: Three composite actions have zero automated tests; the docker-image-build-publish action has a smoke test (`.github/workflows/test-docker-build.yml`). Validation relies on:
   1. This repo's own workflows using them
   2. Downstream consumer repos
   3. Manual `act` runs (not documented)
