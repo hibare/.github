@@ -1,0 +1,32 @@
+name: Test docker-image-build-publish
+
+on:
+  pull_request:
+    paths:
+      - "github/shared-workflows/docker-image-build-publish/**"
+      - ".github/workflows/test-docker-build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Build image with build secret
+        uses: ./github/shared-workflows/docker-image-build-publish
+        with:
+          image_names: ghcr.io/hibare/test-build
+          tags: smoke
+          platforms: linux/amd64
+          dockerfile: github/shared-workflows/docker-image-build-publish/Dockerfile.test
+          secrets: |
+            test_secret=smoke-secret-value

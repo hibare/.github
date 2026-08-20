@@ -1,4 +1,3 @@
-import { runPost } from './post';
+import { runPost } from './post.js';
 
-/* istanbul ignore next */
 runPost();
