@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 import { HttpClient } from '@actions/http-client';
-import { GateExchangeRequest, GateExchangeResponse, GateErrorResponse } from './types';
+import { GateExchangeRequest, GateExchangeResponse, GateErrorResponse } from './types.js';
 
 export async function run(): Promise<void> {
   try {

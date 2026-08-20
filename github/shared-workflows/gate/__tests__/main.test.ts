@@ -1,16 +1,17 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as core from '@actions/core';
 import { HttpClient } from '@actions/http-client';
-import { run } from '../src/main';
+import { run } from '../src/main.js';
 
-jest.mock('@actions/core');
-jest.mock('@actions/http-client');
+vi.mock('@actions/core');
+vi.mock('@actions/http-client');
 
 describe('gate action main', () => {
-  const mockedCore = core as jest.Mocked<typeof core>;
-  const MockedHttpClient = HttpClient as jest.MockedClass<typeof HttpClient>;
+  const mockedCore = vi.mocked(core);
+  const MockedHttpClient = vi.mocked(HttpClient);
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     mockedCore.getInput.mockImplementation((name: string) => {
       switch (name) {
@@ -38,9 +39,9 @@ describe('gate action main', () => {
   });
 
   it('should successfully exchange token and set outputs', async () => {
-    const mockPost = jest.fn().mockResolvedValue({
+    const mockPost = vi.fn().mockResolvedValue({
       message: { statusCode: 200 },
-      readBody: jest.fn().mockResolvedValue(
+      readBody: vi.fn().mockResolvedValue(
         JSON.stringify({
           token: 'ghs_mock123456789',
           expires_at: '2026-08-20T21:00:00Z',
@@ -123,9 +124,9 @@ describe('gate action main', () => {
   });
 
   it('should handle GATE server error responses', async () => {
-    const mockPost = jest.fn().mockResolvedValue({
+    const mockPost = vi.fn().mockResolvedValue({
       message: { statusCode: 403 },
-      readBody: jest.fn().mockResolvedValue(
+      readBody: vi.fn().mockResolvedValue(
         JSON.stringify({
           error: 'No policy matched',
           error_code: 'ERR_UNAUTHORIZED'

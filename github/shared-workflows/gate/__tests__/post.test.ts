@@ -1,16 +1,17 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as core from '@actions/core';
 import { HttpClient } from '@actions/http-client';
-import { runPost } from '../src/post';
+import { runPost } from '../src/post.js';
 
-jest.mock('@actions/core');
-jest.mock('@actions/http-client');
+vi.mock('@actions/core');
+vi.mock('@actions/http-client');
 
 describe('gate action post', () => {
-  const mockedCore = core as jest.Mocked<typeof core>;
-  const MockedHttpClient = HttpClient as jest.MockedClass<typeof HttpClient>;
+  const mockedCore = vi.mocked(core);
+  const MockedHttpClient = vi.mocked(HttpClient);
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should skip revocation if no token is stored in state', async () => {
@@ -46,9 +47,9 @@ describe('gate action post', () => {
       return '';
     });
 
-    const mockRequest = jest.fn().mockResolvedValue({
+    const mockRequest = vi.fn().mockResolvedValue({
       message: { statusCode: 204 },
-      readBody: jest.fn().mockResolvedValue('')
+      readBody: vi.fn().mockResolvedValue('')
     });
     MockedHttpClient.prototype.request = mockRequest;
 
@@ -77,9 +78,9 @@ describe('gate action post', () => {
       return '';
     });
 
-    const mockRequest = jest.fn().mockResolvedValue({
+    const mockRequest = vi.fn().mockResolvedValue({
       message: { statusCode: 404 },
-      readBody: jest.fn().mockResolvedValue('')
+      readBody: vi.fn().mockResolvedValue('')
     });
     MockedHttpClient.prototype.request = mockRequest;
 
@@ -97,9 +98,9 @@ describe('gate action post', () => {
       return '';
     });
 
-    const mockRequest = jest.fn().mockResolvedValue({
+    const mockRequest = vi.fn().mockResolvedValue({
       message: { statusCode: 500 },
-      readBody: jest.fn().mockResolvedValue('Internal server error')
+      readBody: vi.fn().mockResolvedValue('Internal server error')
     });
     MockedHttpClient.prototype.request = mockRequest;
 
