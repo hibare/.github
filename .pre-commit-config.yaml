@@ -39,7 +39,7 @@ repos:
     hooks:
       - id: build-gate-action
         name: Build GATE Action dist
-        entry: bash -c "npm --prefix github/shared-workflows/gate test && npm --prefix github/shared-workflows/gate run package"
+        entry: bash -c "if [ ! -d github/shared-workflows/gate/node_modules ]; then npm --prefix github/shared-workflows/gate ci; fi && npm --prefix github/shared-workflows/gate test && npm --prefix github/shared-workflows/gate run package"
         language: system
         files: ^github/shared-workflows/gate/(src/|package\.json|package-lock\.json|tsconfig\.json)
         pass_filenames: false
