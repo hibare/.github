@@ -1,0 +1,5 @@
+# Smoke test for the docker-image-build-publish secrets pass-through.
+# The build fails if the test_secret secret is not mounted.
+FROM docker.io/alpine:3.20@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc
+RUN --mount=type=secret,id=test_secret,env=TEST_SECRET \
+    sh -c 'test -n "$TEST_SECRET" && echo "secret ok"'

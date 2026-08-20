@@ -3,6 +3,7 @@ repos:
     rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # v6.0.0
     hooks:
       - id: check-added-large-files
+        exclude: (^|/)dist/
       - id: check-ast
       - id: check-builtin-literals
       - id: check-case-conflict
@@ -16,10 +17,12 @@ repos:
       - id: debug-statements
       - id: double-quote-string-fixer
       - id: end-of-file-fixer
+        exclude: (^|/)dist/
       - id: fix-encoding-pragma
       - id: mixed-line-ending
       - id: sort-simple-yaml
       - id: trailing-whitespace
+        exclude: (^|/)dist/
       - id: fix-byte-order-marker
 
   - repo: https://github.com/rhysd/actionlint
@@ -31,3 +34,12 @@ repos:
     rev: b82a6c8896e491b9cb377a99ff3412131920681b # v0.23.2
     hooks:
       - id: markdownlint-cli2-docker
+
+  - repo: local
+    hooks:
+      - id: build-gate-action
+        name: Build GATE Action dist
+        entry: bash -c "if [ ! -d github/shared-workflows/gate/node_modules ]; then npm --prefix github/shared-workflows/gate ci; fi && npm --prefix github/shared-workflows/gate test && npm --prefix github/shared-workflows/gate run package"
+        language: system
+        files: ^github/shared-workflows/gate/(src/|package\.json|package-lock\.json|tsconfig\.json)
+        pass_filenames: false
