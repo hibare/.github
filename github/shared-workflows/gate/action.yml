@@ -1,11 +1,11 @@
 name: gate
 description: >
   Exchange a GitHub OIDC token for a short-lived GitHub App installation token
-  via a GATE server. Optionally connects via Tailscale if the GATE server is on a private tailnet.
+  via a GATE server, with automatic post-job token revocation.
 
 inputs:
   gate-server-url:
-    description: Base URL of the GATE server
+    description: Base URL of the GATE server.
     required: true
 
   target-repository:
@@ -30,64 +30,29 @@ inputs:
     required: false
     default: ""
 
-  # Tailscale inputs
-  tailscale-enabled:
-    description: Whether to connect via Tailscale before calling GATE
+  revoke-token:
+    description: Whether to automatically revoke the token during post-job cleanup.
     required: false
-    default: "false"
-
-  tailscale-tags:
-    description: Tailscale tags to apply (e.g. tag:ci)
-    required: false
-    default: "tag:ci"
+    default: "true"
 
 outputs:
   token:
     description: Exchanged GitHub App installation token.
-    value: ${{ steps.exchange.outputs.token }}
 
   expires-at:
     description: ISO 8601 timestamp of when the token expires.
-    value: ${{ steps.exchange.outputs.expires_at }}
 
   matched-policy:
     description: Name of the policy that authorised the exchange.
-    value: ${{ steps.exchange.outputs.matched_policy }}
 
   permissions:
     description: JSON object mapping granted permission names to their levels.
-    value: ${{ steps.exchange.outputs.permissions }}
 
   request-id:
     description: Request identifier from the GATE server for audit correlation.
-    value: ${{ steps.exchange.outputs.request_id }}
 
 runs:
-  using: composite
-  steps:
-    - name: Connect to Tailscale
-      if: ${{ inputs.tailscale-enabled == 'true' }}
-      uses: tailscale/github-action@780049a30b6ff5c378a9e7b389d15ece7a204888 # v4.1.3
-      env:
-        TS_OAUTH_CLIENT_ID: ${{ env.TS_OAUTH_CLIENT_ID }}
-        TS_AUDIENCE: ${{ env.TS_AUDIENCE }}
-      with:
-        oauth-client-id: ${{ env.TS_OAUTH_CLIENT_ID }}
-        audience: ${{ env.TS_AUDIENCE }}
-        tags: ${{ inputs.tailscale-tags }}
-
-    - name: Exchange token via GATE
-      id: exchange
-      shell: bash
-      env:
-        GATE_SERVER_URL: ${{ inputs.gate-server-url }}
-        TARGET_REPOSITORY: ${{ inputs.target-repository }}
-        POLICY_NAME: ${{ inputs.policy-name }}
-        REQUESTED_PERMISSIONS: ${{ inputs.requested-permissions }}
-        REQUESTED_TTL: ${{ inputs.requested-ttl }}
-        TAILSCALE_ENABLED: ${{ inputs.tailscale-enabled }}
-        TAILSCALE_TAGS: ${{ inputs.tailscale-tags }}
-        ACTIONS_ID_TOKEN_REQUEST_TOKEN: ${{ env.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}
-        ACTIONS_ID_TOKEN_REQUEST_URL: ${{ env.ACTIONS_ID_TOKEN_REQUEST_URL }}
-      run: |
-        "${{ github.action_path }}/exchange-token.sh"
+  using: node24
+  main: dist/index.js
+  post: dist/post/index.js
+  post-if: always()

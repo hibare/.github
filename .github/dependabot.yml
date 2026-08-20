@@ -5,7 +5,6 @@ updates:
     directories:
       - "/"
       - "/github/shared-workflows/docker-image-build-publish"
-      - "/github/shared-workflows/gate"
       - "/github/shared-workflows/goreleaser"
       - "/github/shared-workflows/pre-commit"
     schedule:
@@ -57,5 +56,24 @@ updates:
       - "hibare"
     groups:
       pip:
+        patterns:
+          - "*"
+
+  # Maintain npm dependencies for the shared gate action
+  - package-ecosystem: "npm"
+    directories:
+      - "/github/shared-workflows/gate"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+      time: "23:30"
+      timezone: "UTC"
+    target-branch: "main"
+    cooldown:
+      default-days: 5
+    assignees:
+      - "hibare"
+    groups:
+      npm:
         patterns:
           - "*"

@@ -1,0 +1,33 @@
+{
+  "name": "@hibare/gate-action",
+  "version": "1.0.0",
+  "description": "Exchange a GitHub OIDC token for a short-lived GitHub App installation token via GATE server",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "bundle": "ncc build src/index.ts -o dist --source-map --license licenses.txt && ncc build src/post-index.ts -o dist/post --source-map --license licenses.txt",
+    "package": "npm run build && npm run bundle",
+    "test": "jest"
+  },
+  "keywords": [
+    "github-actions",
+    "actions",
+    "oidc",
+    "gate",
+    "security"
+  ],
+  "author": "Shubham Hibare <shubham@hibare.in>",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/http-client": "^2.2.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^24.0.0",
+    "@vercel/ncc": "^0.38.3",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.8.0"
+  }
+}
