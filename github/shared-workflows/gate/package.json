@@ -20,7 +20,7 @@
   "author": "Shubham Hibare <shubham@hibare.in>",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.11.1",
+    "@actions/core": "^3.0.1",
     "@actions/http-client": "^4.0.1"
   },
   "devDependencies": {
