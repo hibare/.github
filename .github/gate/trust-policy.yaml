@@ -1,0 +1,14 @@
+version: "1.0"
+trust_policies:
+  - name: "dependabot-read-only"
+    description: "Read-only access for any hibare repository workflow to fetch this module"
+    issuer: "https://token.actions.githubusercontent.com"
+    rules:
+      - name: "hibare-repositories"
+        logic: AND
+        conditions:
+          - field: "repository_owner"
+            pattern: "^hibare$"
+    permissions:
+      contents: read
+    token_ttl: 900
