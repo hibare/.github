@@ -1,0 +1,31 @@
+name: Setup ShellCheck
+description: Set up ShellCheck by downloading the binary from GitHub Releases for the runner's OS and architecture.
+
+inputs:
+  version:
+    description: ShellCheck version to download (e.g. "latest", "v0.10.0", or "0.10.0").
+    required: false
+    default: latest
+  token:
+    description: GitHub token for authenticated GitHub API requests (helps avoid rate limits).
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  version:
+    description: Installed ShellCheck version.
+    value: ${{ steps.install-shellcheck.outputs.version }}
+  shellcheck-path:
+    description: Path to the installed ShellCheck binary.
+    value: ${{ steps.install-shellcheck.outputs.shellcheck-path }}
+
+runs:
+  using: composite
+  steps:
+    - name: Download and install ShellCheck
+      id: install-shellcheck
+      shell: bash
+      env:
+        INPUT_VERSION: ${{ inputs.version }}
+        INPUT_TOKEN: ${{ inputs.token }}
+      run: ${{ github.action_path }}/install.sh
