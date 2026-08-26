@@ -15,3 +15,13 @@ Build and optionally publish Docker images to DockerHub and/or GHCR. Supports Bu
     secrets: |
       npm_token=${{ secrets.NPM_TOKEN }}
 ```
+
+## setup-shellcheck
+
+Download and set up ShellCheck from GitHub releases for the runner platform and architecture.
+
+```yaml
+- uses: hibare/.github/github/shared-workflows/setup-shellcheck@<sha>
+  with:
+    version: latest # optional: "latest", "v0.10.0", or "0.10.0"
+```
