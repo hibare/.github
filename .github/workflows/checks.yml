@@ -34,4 +34,4 @@ jobs:
           cache-dependency-path: github/shared-workflows/gate/package-lock.json
 
       - name: Run pre-commit hooks
-        uses: hibare/.github/github/shared-workflows/pre-commit/@085496bbd96eacfbf23d3e8c9bb9ca02ab95dc77 # v0.14.0
+        uses: hibare/.github/github/shared-workflows/pre-commit/@d8921660c567ca4ec870c4af0546757dcd50ec96 # v0.15.0
