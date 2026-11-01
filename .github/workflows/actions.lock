@@ -6,12 +6,12 @@ workflows:
     '.github/workflows/checks.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
-        - 'actions/setup-python@v7.0.0'
-        - 'hibare/.github@v0.16.0'
+        - 'actions/setup-python@v7.1.0'
+        - 'hibare/.github@v0.18.0'
     '.github/workflows/rebuild-gate-dist.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
-        - 'stefanzweifel/git-auto-commit-action@v7.2.0'
+        - 'stefanzweifel/git-auto-commit-action@v7.2.1'
     '.github/workflows/release-drafter.yml':
         - 'release-drafter/release-drafter@v7.10.0'
     '.github/workflows/test-docker-build.yml':
@@ -32,14 +32,14 @@ dependencies:
         commit: 'sha1-949feb2413d6458794dcd2491c4babbbce0c15c1'
         owner_id: 44036562
         repo_id: 189476904
-    'actions/setup-python@v7.0.0':
-        ref: 'v7.0.0'
-        commit: 'sha1-5fda3b95a4ea91299a34e894583c3862153e4b97'
+    'actions/setup-python@v7.1.0':
+        ref: 'v7.1.0'
+        commit: 'sha1-6d4fd22b20465ccc0f7354476588e8df7c9ca0e0'
         owner_id: 44036562
         repo_id: 192625525
-    'hibare/.github@v0.16.0':
-        ref: 'v0.16.0'
-        commit: 'sha1-f2ff32dea70db639092f5927623f59ed83099cec'
+    'hibare/.github@v0.18.0':
+        ref: 'v0.18.0'
+        commit: 'sha1-d7beb850128a3af50913656d9126a8aeb9f6c427'
         owner_id: 20609766
         repo_id: 728721363
         uses:
@@ -49,8 +49,8 @@ dependencies:
         commit: 'sha1-978bb0b30c5ee8cdd332ced253758157150d43f0'
         owner_id: 58292376
         repo_id: 139022359
-    'stefanzweifel/git-auto-commit-action@v7.2.0':
-        ref: 'v7.2.0'
-        commit: 'sha1-4a55954c782fc1ea30b9056cd3e7a2b40ca8887d'
+    'stefanzweifel/git-auto-commit-action@v7.2.1':
+        ref: 'v7.2.1'
+        commit: 'sha1-d0b01107b5db882071f96de5dd4b54961ea93f4c'
         owner_id: 1080923
         repo_id: 191163758

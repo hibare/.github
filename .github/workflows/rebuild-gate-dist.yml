@@ -44,7 +44,7 @@ jobs:
         run: npm --prefix github/shared-workflows/gate run package
 
       - name: Commit rebuilt dist
-        uses: stefanzweifel/git-auto-commit-action@v7.2.0
+        uses: stefanzweifel/git-auto-commit-action@v7.2.1
         with:
           commit_message: "chore: rebuild gate dist"
           file_pattern: github/shared-workflows/gate/dist/**
