@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v7.0.1
 
       - name: Build image with build secret
-        uses: ./github/shared-workflows/docker-image-build-publish
+        uses: ./.github/shared-workflows/docker-image-build-publish
         with:
           image_names: ghcr.io/hibare/test-build
           tags: smoke
