@@ -100,14 +100,14 @@ runs:
 
     - name: Login to DockerHub
       if: ${{ inputs.push_dockerhub == 'true' }}
-      uses: docker/login-action@v4.6.0
+      uses: docker/login-action@v4.7.0
       with:
         username: ${{ env.DOCKERHUB_USERNAME }}
         password: ${{ env.DOCKERHUB_PASSWORD }}
 
     - name: Login to GitHub Container Registry
       if: ${{ inputs.push_ghcr == 'true' }}
-      uses: docker/login-action@v4.6.0
+      uses: docker/login-action@v4.7.0
       with:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
