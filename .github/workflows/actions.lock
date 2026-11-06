@@ -4,10 +4,10 @@
 version: 'v0.0.3'
 workflows:
     '.github/workflows/checks.yml':
+        - 'actions/cache@v6.1.0'
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
         - 'actions/setup-python@v7.1.0'
-        - 'hibare/.github@v0.19.0'
     '.github/workflows/rebuild-gate-dist.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
@@ -23,7 +23,7 @@ workflows:
         - 'docker/setup-buildx-action@v4.4.1'
         - 'docker/setup-qemu-action@v4.4.0'
 dependencies:
-    'actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9':
+    'actions/cache@v6.1.0':
         ref: 'v6.1.0'
         commit: 'sha1-55cc8345863c7cc4c66a329aec7e433d2d1c52a9'
         owner_id: 44036562
@@ -73,13 +73,6 @@ dependencies:
         commit: 'sha1-99012661954931238ded8c8b007157a8430204e1'
         owner_id: 5429470
         repo_id: 288487894
-    'hibare/.github@v0.19.0':
-        ref: 'v0.19.0'
-        commit: 'sha1-b8aae3d5a0c260fa954f47a505583eb1978ba0c1'
-        owner_id: 20609766
-        repo_id: 728721363
-        uses:
-            - 'actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9'
     'release-drafter/release-drafter@v7.10.0':
         ref: 'v7.10.0'
         commit: 'sha1-978bb0b30c5ee8cdd332ced253758157150d43f0'
