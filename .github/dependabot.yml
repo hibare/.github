@@ -1,3 +1,4 @@
+# Managed by Axon; manual edits will be overwritten.
 version: 2
 updates:
   # Maintain dependencies for GitHub Actions
@@ -5,12 +6,14 @@ updates:
     directories:
       - "/"
       - "/github/shared-workflows/docker-image-build-publish"
+      - "/github/shared-workflows/gate"
       - "/github/shared-workflows/goreleaser"
       - "/github/shared-workflows/pre-commit"
+      - "/github/shared-workflows/setup-shellcheck"
     schedule:
       interval: "weekly"
-      day: "thursday"
-      time: "23:30"
+      day: "friday"
+      time: "00:30"
       timezone: "UTC"
     target-branch: "main"
     cooldown:
@@ -22,13 +25,13 @@ updates:
         patterns:
           - "*"
 
-  # Maintain dependencies for pre-commit hooks
-  - package-ecosystem: "pre-commit"
-    directory: "/"
+  # Maintain version for Docker
+  - package-ecosystem: "docker"
+    directory: "/github/shared-workflows/docker-image-build-publish"
     schedule:
       interval: "weekly"
-      day: "thursday"
-      time: "23:30"
+      day: "friday"
+      time: "00:30"
       timezone: "UTC"
     target-branch: "main"
     cooldown:
@@ -36,37 +39,20 @@ updates:
     assignees:
       - "hibare"
     groups:
-      pre-commit:
+      docker:
         patterns:
           - "*"
 
-  # Maintain dependencies for the shared pre-commit workflow's Python requirements
-  - package-ecosystem: "pip"
-    directories:
-      - "/github/shared-workflows/pre-commit"
-    schedule:
-      interval: "weekly"
-      day: "thursday"
-      time: "23:30"
-      timezone: "UTC"
-    target-branch: "main"
-    cooldown:
-      default-days: 5
-    assignees:
-      - "hibare"
-    groups:
-      pip:
-        patterns:
-          - "*"
-
-  # Maintain npm dependencies for the shared gate action
+  # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directories:
       - "/github/shared-workflows/gate"
+      - "/github/shared-workflows/gate/dist"
+      - "/github/shared-workflows/gate/dist/post"
     schedule:
       interval: "weekly"
-      day: "thursday"
-      time: "23:30"
+      day: "friday"
+      time: "00:30"
       timezone: "UTC"
     target-branch: "main"
     cooldown:
@@ -75,5 +61,41 @@ updates:
       - "hibare"
     groups:
       npm:
+        patterns:
+          - "*"
+
+  # Maintain dependencies for Python
+  - package-ecosystem: "pip"
+    directory: "/github/shared-workflows/pre-commit"
+    schedule:
+      interval: "weekly"
+      day: "friday"
+      time: "00:30"
+      timezone: "UTC"
+    target-branch: "main"
+    cooldown:
+      default-days: 5
+    assignees:
+      - "hibare"
+    groups:
+      python:
+        patterns:
+          - "*"
+
+  # Maintain dependencies for pre-commit
+  - package-ecosystem: "pre-commit"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "friday"
+      time: "00:30"
+      timezone: "UTC"
+    target-branch: "main"
+    cooldown:
+      default-days: 5
+    assignees:
+      - "hibare"
+    groups:
+      pre-commit:
         patterns:
           - "*"
