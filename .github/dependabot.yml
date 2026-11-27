@@ -11,7 +11,7 @@ updates:
       - "/github/shared-workflows/pre-commit"
       - "/github/shared-workflows/setup-shellcheck"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "friday"
       time: "00:30"
       timezone: "UTC"
@@ -29,7 +29,7 @@ updates:
   - package-ecosystem: "docker"
     directory: "/github/shared-workflows/docker-image-build-publish"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "friday"
       time: "00:30"
       timezone: "UTC"
@@ -50,7 +50,7 @@ updates:
       - "/github/shared-workflows/gate/dist"
       - "/github/shared-workflows/gate/dist/post"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "friday"
       time: "00:30"
       timezone: "UTC"
@@ -68,7 +68,7 @@ updates:
   - package-ecosystem: "pip"
     directory: "/github/shared-workflows/pre-commit"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "friday"
       time: "00:30"
       timezone: "UTC"
@@ -86,7 +86,7 @@ updates:
   - package-ecosystem: "pre-commit"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "friday"
       time: "00:30"
       timezone: "UTC"
